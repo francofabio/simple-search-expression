@@ -34,8 +34,8 @@ In this example, the search expression defines that user want search for all rec
 
 ##The expression
 The simple search expression is defined as a simple string, using colon as field and value separator.<br/>
-It is possible to use an expression without informing the field. In this case, must be specified in the execution plan of the expression (`SimpleSearchExpressionPlan`) the criteria for identification of fields.<br/>
-Currently only the operators LIKE, EQUALS, INTERVAL or IN are supported.</br>
+It is possible to use an expression without informing the field. In this case, must be specified in the execution plan of the search expression (SimpleSearchExpressionPlan) the rules to resolve default fields.<br/>
+Currently only the operators LIKE, EQUALS, INTERVAL and IN are supported.</br>
 The definition of operator depends on the field type and/or expression value.
 ####Operators
 The simple search expression supports LIKE, EQUALS, INTERVAL (-) and IN (,) operators, but the operator to apply on the expression, depends on the field type.
@@ -77,11 +77,13 @@ The jar package is available in target/ directory.
 ##Quick start
 Parse simple search expression.
 ```java
-String simpleSearchExpression = "id:10"; //This is a search expression for find a record where id is 10
+//This is a search expression for find a record where id is 10
+String simpleSearchExpression = "id:10";
 SimpleSearchExpressionField idExprField = new SimpleSearchExpressionField("id", Integer.class);
 SimpleSearchExpressionPlan searchPlan = new SimpleSearchExpressionPlan(idExprField);
 SimpleSearchParser simpleSearchParser = new SimpleSearchParser(searchPlan);
-SimpleSearchExpression searchExpr = simpleSearchParser.parse(simpleSearchExpression); //Parse simple search expression and returns the expression representation with id field, value 10 and operation EQUALS
+//Parse simple search expression and returns the expression representation with id field, value 10 and operation EQUALS
+SimpleSearchExpression searchExpr = simpleSearchParser.parse(simpleSearchExpression);
 ```
 The above example is not very useful, it is most useful when used together with a persistence library.
 
@@ -112,7 +114,8 @@ import com.mongodb.DBCursor;
 
 ...
 
-String simpleSearchExpression = "name:john galt"; //This is a search expression for find all records where name contains john galt
+//This is a search expression for find all records where name contains john galt
+String simpleSearchExpression = "name:john galt";
 SimpleSearchExpressionPlan searchPlan = new SimpleSearchExpressionPlan(new SimpleSearchExpressionField("name", String.class));
 SimpleSearchParser simpleSearchParser = new SimpleSearchParser(searchPlan);
 SimpleSearchExpression searchExpr = simpleSearchParser.parse(simpleSearchExpression);
@@ -143,7 +146,8 @@ import javax.persistence.Query;
 
 ...
 
-String simpleSearchExpression = "name:john galt"; //This is a search expression for find all records where name contains john galt
+//This is a search expression for find all records where name contains john galt
+String simpleSearchExpression = "name:john galt";
 SimpleSearchExpressionPlan searchPlan = new SimpleSearchExpressionPlan(new SimpleSearchExpressionField("name", String.class));
 SimpleSearchParser simpleSearchParser = new SimpleSearchParser(searchPlan);
 SimpleSearchExpression searchExpr = simpleSearchParser.parse(simpleSearchExpression);
@@ -151,9 +155,11 @@ SimpleSearchExpression searchExpr = simpleSearchParser.parse(simpleSearchExpress
 //Build a JPQL where clause
 JPQLWhereClause whereClause = new SimpleSearchJPQLBuilder().build(searchExpr);
 
-String jpql = whereClause.join("from Person"); //Joins the from and where clauses
+//Joins the from and where clauses
+String jpql = whereClause.join("from Person");
 Query jpaQuery = em.createQuery(jpql, Person.class);
-whereClause.applyParameters(jpaQuery); //Set parameter values in query
+//Set parameter values in query
+whereClause.applyParameters(jpaQuery);
 
 List<Person> result = jpaQuery.getResultList();
 ```
@@ -165,8 +171,10 @@ The simple search expression supports field resolving according to the contents 
 ```java
 final Map<String, String> defaults = new HashMap<String, String>() {
     {
-        put("__default__", "name"); //if the value of the search did not match any of the rules, so we will use the standard field set by the key __default__
-        put("id", "^[0-9]{1,10}$"); //Match numbers with length 1 to 10.
+        //if the value of the search did not match any of the rules, so we will use the standard field set by the key __default__
+        put("__default__", "name");
+        //Match numbers with length 1 to 10. 
+        put("id", "^[0-9]{1,10}$");
     }
 };
 List<SimpleSearchExpressionField> fields = Arrays.asList(new SimpleSearchExpressionField("id", Integer.class), new SimpleSearchExpressionField("name", String.class));
