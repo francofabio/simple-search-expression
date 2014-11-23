@@ -1,0 +1,21 @@
+build/
+dist/
+classes/
+bin/
+target/
+
+.gradle/
+.settings/
+.classpath
+.project
+
+# Default ignore para arquivos de configuracoes e arquivos temporários
+*.class
+*.jar
+*.~*
+*.*~
+*.lock
+*.DS_Store
+*.log
+*.log*
+
