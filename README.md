@@ -1,4 +1,6 @@
 #simple-search-expression
+[![Build Status](https://travis-ci.org/francofabio/simple-search-expression.svg?branch=master)](https://travis-ci.org/francofabio/simple-search-expression)
+
 This is a Java library to parse search expression like used in gmail.
 
 _<sub>My english is terrible, therefore, any revision will be welcome</sub>_
