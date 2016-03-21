@@ -15,7 +15,6 @@
  */
 package br.com.binarti.simplesearchexpr;
 
-import java.util.Date;
 import java.util.regex.Pattern;
 
 import br.com.binarti.simplesearchexpr.converter.SimpleSearchConverterResult;
@@ -173,17 +172,6 @@ public class SimpleSearchParser {
 		}
 		
 		return expression;
-	}
-
-	public static void main(String[] args) {
-		final SimpleSearchExpressionPlan plan = new SimpleSearchExpressionPlan(new SimpleSearchExpressionField("nome", String.class), 
-				new SimpleSearchExpressionField("bairro", String.class), new SimpleSearchExpressionField("data", Date.class),
-				new SimpleSearchExpressionField("cidade", String.class));
-		final SimpleSearchExpression e = new SimpleSearchParser(plan).parse("nome:fabio bairro:porto de santana data:01/01/2014-20/01/2014 cidade:cariacica nome:a");
-		System.out.println(e.getOperations().size());
-		for (SimpleSearchRelationalOperation op : e.getOperations()) {
-			System.out.println(op.getField().getName() + " " + op.getOperator() + " " + op.getValue());
-		}
 	}
 	
 }

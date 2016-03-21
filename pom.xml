@@ -4,7 +4,7 @@
   <groupId>br.com.binarti</groupId>
   <artifactId>simple-search-expression</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <name>simple-search-expression</name>
   <url>http://github.com/francofabio/simple-search-expression</url>
 
